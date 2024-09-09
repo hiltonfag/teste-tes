@@ -1,0 +1,160 @@
+<html><head><base href="https://www.minhalistacompras.com/">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lista de Compras Interativa Responsiva</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+    .container {
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        width: 100%;
+        max-width: 500px;
+    }
+    h1 {
+        color: #333;
+        text-align: center;
+        font-size: 24px;
+    }
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+    li {
+        cursor: pointer;
+        padding: 15px;
+        margin: 10px 0;
+        background-color: #f9f9f9;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+        font-size: 16px;
+    }
+    li:hover {
+        background-color: #e0e0e0;
+    }
+    .comprado {
+        text-decoration: line-through;
+        opacity: 0.5;
+    }
+    #adicionar {
+        display: block;
+        width: 100%;
+        padding: 15px;
+        margin-top: 15px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+    }
+    #adicionar:hover {
+        background-color: #45a049;
+    }
+    #novoItem {
+        width: 100%;
+        padding: 15px;
+        margin-top: 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 16px;
+        box-sizing: border-box;
+    }
+
+    @media (max-width: 600px) {
+        body {
+            padding: 10px;
+        }
+        .container {
+            padding: 15px;
+        }
+        h1 {
+            font-size: 20px;
+        }
+        li {
+            padding: 12px;
+            font-size: 14px;
+        }
+        #adicionar, #novoItem {
+            padding: 12px;
+            font-size: 14px;
+        }
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <h1>Lista de Compras</h1>
+    <ul id="listaCompras">
+        <li>Arroz</li>
+        <li>Feijão</li>
+        <li>Leite</li>
+        <li>Pão</li>
+        <li>Frutas</li>
+    </ul>
+    <input type="text" id="novoItem" placeholder="Adicione um novo item">
+    <button id="adicionar">Adicionar Item</button>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const lista = document.getElementById('listaCompras');
+    const novoItemInput = document.getElementById('novoItem');
+    const adicionarBtn = document.getElementById('adicionar');
+
+    lista.addEventListener('click', function(e) {
+        if (e.target.tagName === 'LI') {
+            e.target.classList.add('comprado');
+            setTimeout(() => {
+                e.target.style.display = 'none';
+            }, 500);
+        }
+    });
+
+    adicionarBtn.addEventListener('click', function() {
+        adicionarNovoItem();
+    });
+
+    novoItemInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            adicionarNovoItem();
+        }
+    });
+
+    function adicionarNovoItem() {
+        const novoItemTexto = novoItemInput.value.trim();
+        if (novoItemTexto) {
+            const novoItem = document.createElement('li');
+            novoItem.textContent = novoItemTexto;
+            lista.appendChild(novoItem);
+            novoItemInput.value = '';
+            novoItemInput.focus();
+        }
+    }
+
+    // Adiciona suporte para toque em dispositivos móveis
+    lista.addEventListener('touchstart', function(e) {
+        if (e.target.tagName === 'LI') {
+            e.preventDefault(); // Previne o comportamento padrão de toque
+            e.target.classList.add('comprado');
+            setTimeout(() => {
+                e.target.style.display = 'none';
+            }, 500);
+        }
+    }, {passive: false});
+});
+</script>
+</body>
+</html>
